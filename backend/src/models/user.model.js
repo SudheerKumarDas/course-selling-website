@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const ObjectId = mongoose.Schema.Types.ObjectId;
+
 const userSchema = new mongoose.Schema({
     username :{
         type:String,
@@ -13,7 +15,11 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true,
-    }
+    },
+    enrolledCourses:[{
+        type:ObjectId,
+        ref:'Course'
+    }]
 },{
     timestamps:true
 })

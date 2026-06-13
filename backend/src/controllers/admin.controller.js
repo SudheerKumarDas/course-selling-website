@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
 import Admin from "../models/admin.model.js";
 import { generateToken } from "../utils/generateToken.js";
@@ -12,12 +12,12 @@ export const adminSignup = async (req, res) => {
       });
     }
 
-    const existingAdmin = await Admin.findOne({email});
+    const existingAdmin = await Admin.findOne({ email });
 
-    if(existingAdmin){
-        return res.status(409).json({
-            message:"Admin already registered..."
-        })
+    if (existingAdmin) {
+      return res.status(409).json({
+        message: "Admin already registered...",
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 5);
@@ -31,20 +31,64 @@ export const adminSignup = async (req, res) => {
     const token = await generateToken(admin._id);
 
     const adminResponse = {
-        id:admin._id,
-        username:admin.username,
-        email:admin.email,
-    }
+      id: admin._id,
+      username: admin.username,
+      email: admin.email,
+    };
 
     res.status(201).json({
-        success:true,
-        message:"Admin signed up successfully",
-        admin:adminResponse,
-        token:token
-    })
-
+      success: true,
+      message: "Admin signed up successfully",
+      admin: adminResponse,
+      token: token,
+    });
   } catch (error) {
     console.log("Error signing up :", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const adminSignin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!password || !email) {
+      return res.status(400).json({
+        message: "email and password are required",
+      });
+    }
+    const admin = await Admin.findOne({ email });
+
+    if (!admin) {
+      return res.status(403).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(password, admin.password);
+
+    if (!isPasswordMatch) {
+      return res.status(403).json({
+        message: "Invalid credentials",
+      });
+    }
+
+    const token = await generateToken(admin._id);
+
+    const adminResponse = {
+      id: admin._id,
+      username: admin.username,
+      email: admin.email,
+    };
+
+    res.status(200).json({
+      message: "Login successfully",
+      token: token,
+      admin: adminResponse,
+    });
+  } catch (error) {
+    console.log("Error in signing in ", error);
     res.status(500).json({
       message: "Internal server error",
     });
