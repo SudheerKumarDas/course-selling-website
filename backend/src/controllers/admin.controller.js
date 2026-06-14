@@ -67,7 +67,7 @@ export const adminSignin = async (req, res) => {
       });
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, admin.password);
+    const isPasswordMatch = bcrypt.compare(password, admin.password);
 
     if (!isPasswordMatch) {
       return res.status(403).json({
