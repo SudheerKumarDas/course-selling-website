@@ -99,6 +99,8 @@ export const adminSignin = async (req, res) => {
 
 export const adminCreateCourse = async (req,res) => {
   try {
+      const admin = req.admin;
+      const adminId = admin._id;
       const {title,description,price,imageLink,published} = req.body;
       if(!title || !description || !price || !imageLink || !published){
         return res.status(400).json({
@@ -113,6 +115,9 @@ export const adminCreateCourse = async (req,res) => {
         imageLink,
         published
       })
+      await Admin.findByIdAndUpdate(adminId,
+        {$push:{ createdCourses: course._id} },
+      )
       res.status(201).json({
         message:"Course created",
         course:course
@@ -170,5 +175,28 @@ export const getAllCourses = async (req,res) => {
     res.status(500).json({
       message:"Internal server error"
     })
+  }
+}
+
+export const getAdminCreatedCourses = async (req,res) => {
+  try {
+    const admin = req.admin;
+    const adminId = admin._id;
+    const adminProfile = await Admin.findById(adminId).populate("createdCourses")
+    console.log(adminProfile);
+    if(!adminProfile){
+      return res.status(404).json({
+        message:"Admin not found"
+      })
+    }
+    res.status(200).json({
+      message:"Fetched courses successfully",
+      createdCourses:adminProfile.createdCourses
+    })
+  } catch (error) {
+    console.error("Error fetching admin courses:", error);
+    res.status(500).json({
+      message: "Internal server error"
+    });
   }
 }
