@@ -12,10 +12,11 @@ export const userSignUp = async (req,res) => {
                 message:"Not enough data for sign up"
             })
         }
+        const hashedPassword = await bcrypt.hash(password,5);
         const user = await User.create({
             username,
             email,
-            password
+            password:hashedPassword
         })
 
         const token = await generateToken(user._id);
