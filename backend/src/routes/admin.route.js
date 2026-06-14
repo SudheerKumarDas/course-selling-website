@@ -9,7 +9,6 @@ router.post("/signup", adminSignup);
 
 router.post("/signin", adminSignin);
 
-// const admin = req.admin;
 router.post("/courses",adminAuth,adminCreateCourse);
 
 router.put("/courses/:courseId",adminAuth, updateCourse);

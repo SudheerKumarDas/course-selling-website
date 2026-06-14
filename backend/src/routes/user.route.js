@@ -1,10 +1,9 @@
 import express from "express"
+import { userSignUp } from "../controllers/user.controller.js";
 
 const router = express.Router();
 
-router.post("/signup",(req,res)=>{
-    res.send("users sign  up route")
-})
+router.post("/signup",userSignUp)
 
 router.post("/signin",(req,res)=>{
     res.send("users sign in route")
