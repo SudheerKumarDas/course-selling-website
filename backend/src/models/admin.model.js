@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const ObjectId = mongoose.Schema.Types.ObjectId;
+
 const adminSchema = new mongoose.Schema({
     username:{
         type:String,
@@ -13,7 +15,11 @@ const adminSchema = new mongoose.Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    createdCourses:[{
+        type:ObjectId,
+        ref:'Course'
+    }]
 })
 
 const Admin = mongoose.model("Admin",adminSchema);

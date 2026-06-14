@@ -77,7 +77,7 @@ export const adminSignin = async (req, res) => {
     const token = await generateToken(admin._id);
 
     const adminResponse = {
-      id: admin._id,
+      adminId: admin._id,
       username: admin.username,
       email: admin.email,
     };
