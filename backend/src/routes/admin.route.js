@@ -1,6 +1,7 @@
 import express from "express";
 
 import { adminSignin, adminSignup } from "../controllers/admin.controller.js";
+import { adminAuth } from "../middlewares/admin.middleware.js";
 
 const router = express.Router();
 
@@ -8,8 +9,11 @@ router.post("/signup", adminSignup);
 
 router.post("/signin", adminSignin);
 
-router.post("/courses", (req, res) => {
-  res.send("admin add courses route");
+router.post("/courses",adminAuth, (req, res) => {
+    const admin = req.admin;
+    res.json({
+      admin:admin
+    })
 });
 
 router.put("/courses/:courseId", (req, res) => {
