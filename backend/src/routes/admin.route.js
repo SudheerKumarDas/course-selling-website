@@ -1,6 +1,6 @@
 import express from "express";
 
-import { adminCreateCourse, adminSignin, adminSignup } from "../controllers/admin.controller.js";
+import { adminCreateCourse, adminSignin, adminSignup, getAllCourses } from "../controllers/admin.controller.js";
 import { adminAuth } from "../middlewares/admin.middleware.js";
 
 const router = express.Router();
@@ -16,8 +16,6 @@ router.put("/courses/:courseId", (req, res) => {
   res.send("admin update course route");
 });
 
-router.get("/courses", (req, res) => {
-  res.send("admin get all the available courses route");
-});
+router.get("/courses",adminAuth ,getAllCourses);
 
 export default router;

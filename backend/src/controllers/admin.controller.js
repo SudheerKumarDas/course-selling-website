@@ -124,3 +124,18 @@ export const adminCreateCourse = async (req,res) => {
     })
   }
 }
+
+export const getAllCourses = async (req,res) => {
+  try {
+    const courses = await Course.find({});
+    res.status(200).json({
+      message:"fetched the courses successfully",
+      courses:courses
+    })
+  } catch (error) {
+    console.error("Failed to fetch all the courses ",error);
+    res.status(500).json({
+      message:"Internal server error"
+    })
+  }
+}
