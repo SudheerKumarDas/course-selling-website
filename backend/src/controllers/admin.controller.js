@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 
 import Admin from "../models/admin.model.js";
+import Course from "../models/course.model.js";
 import { generateToken } from "../utils/generateToken.js";
 
 export const adminSignup = async (req, res) => {
@@ -94,3 +95,32 @@ export const adminSignin = async (req, res) => {
     });
   }
 };
+
+
+export const adminCreateCourse = async (req,res) => {
+  try {
+      const {title,description,price,imageLink,published} = req.body;
+      if(!title || !description || !price || !imageLink || !published){
+        return res.status(400).json({
+          message:"Not enough data to create course"
+        })
+      }
+      console.log(title);
+      const course = await Course.create({
+        title,
+        description,
+        price,
+        imageLink,
+        published
+      })
+      res.status(201).json({
+        message:"Course created",
+        course:course
+      })
+  } catch (error) {
+    console.error("Error in creating course ",error);
+    res.status(500).json({
+      message:"Internal server error"
+    })
+  }
+}
