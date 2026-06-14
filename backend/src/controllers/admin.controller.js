@@ -125,6 +125,39 @@ export const adminCreateCourse = async (req,res) => {
   }
 }
 
+export const updateCourse = async (req,res) => {
+  try {
+      const { courseId } = req.params;
+      const updatedData = req.body;
+      console.log(updatedData)
+
+      const updatedCourse = await Course.findByIdAndUpdate(
+        courseId,
+        updatedData,
+        {
+          returnDocument:'after',
+          runValidators:true
+        }
+      )
+
+      if(!updateCourse){
+        return res.status(404).json({
+          message:"Course with the id not found"
+        })
+      }
+
+      res.status(200).json({
+        message:"course updated successfully",
+        updatedCourse:updatedCourse
+      })
+  } catch (error) {
+      console.error("Failed to fetch all the courses ",error);
+      res.status(500).json({
+        message:"Internal server error"
+      })
+  }
+}
+
 export const getAllCourses = async (req,res) => {
   try {
     const courses = await Course.find({});
