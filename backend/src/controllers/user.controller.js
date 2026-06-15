@@ -95,3 +95,51 @@ export const userCourses = async (req,res) => {
         })
     }
 }
+
+export const userBuyCourse = async (req,res) => {
+    try {
+        const userId = req.userId;
+        const { courseId }= req.params;
+        const course = await Course.findById(courseId);
+        if(!course){
+            return res.status(404).json({
+                message:"Course not found"
+            })
+        }
+        const user = await User.findByIdAndUpdate(userId,
+            { $push:{enrolledCourses:course._id} }
+        )
+        res.status(200).json({
+            message:"course bought successfully",
+            courseBought : course
+        })
+        
+    } catch (error) {
+        console.error("Error in buying courses ",error);
+        res.status(500).json({
+            message:"Internal server error"
+        })
+    }
+}
+
+export const purchasedCourses = async (req,res) => {
+    try {
+        const userId = req.userId;
+        const userProfile = await User.findById(userId).populate("enrolledCourses");
+        if(!userProfile.enrolledCourses || userProfile.enrolledCourses.length === 0){
+            return res.status(200).json({
+                message:"No any courses created yet",
+                courses:userProfile.enrolledCourses
+            })
+        }
+        res.status(200).json({
+            message:"fetched user enrolled courses",
+            EnrolledCourses : userProfile.enrolledCourses
+        })
+    } catch (error) {
+        console.error("Error in fetching enrolled courses ",error);
+        res.status(500).json({
+            message:"Internal server error"
+        })
+    }
+}
