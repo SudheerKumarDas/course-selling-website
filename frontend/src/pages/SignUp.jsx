@@ -1,9 +1,12 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [username,setUsername]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
+
+  const navigate = useNavigate();
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
@@ -28,6 +31,7 @@ function SignUp() {
         localStorage.setItem("token",data.token);
         alert("sign up successful")
         console.log(localStorage.getItem("token"));
+        navigate("/dashboard");
       }else{
         alert(data.message)
       }
@@ -57,10 +61,6 @@ function SignUp() {
             <br />
 
             <button className="cursor-pointer border-2 p-2" type="submit"> User Sign Up</button>
-
-            <br />
-
-            <button className="cursor-pointer border-2 p-2"> Admin Sign Up</button>
 
         </form>
     </div>

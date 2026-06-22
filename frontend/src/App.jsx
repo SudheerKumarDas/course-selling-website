@@ -1,23 +1,20 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
 import './App.css'
 import SignUp from './pages/SignUp.jsx'
 import SignIn from './pages/SignIn.jsx'
+import Dashboard from "./pages/Dashboard.jsx"
 
 function App() {
 
   return (
     <>
-      <h1 className='text-red-900 text-center'>Course Selling App</h1>
-      <div className='flex justify-center items-center'>
-            <SignUp/>
-      </div>
-
-          <br />
-          <br />
-          <br />
-          
-      <div className='flex justify-center items-center'>
-        <SignIn/>
-      </div>
+      <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<SignUp/>}>Sign Up</Route>
+            <Route path="/dashboard" element={<Dashboard/>}>Dashboard</Route>
+          </Routes>
+      </BrowserRouter>
       
     </>
   )
