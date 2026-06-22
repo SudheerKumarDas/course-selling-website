@@ -25,7 +25,9 @@ function SignUp() {
       const data = await response.json();
       console.log(data);
       if(response.ok){
+        localStorage.setItem("token",data.token);
         alert("sign up successful")
+        console.log(localStorage.getItem("token"));
       }else{
         alert(data.message)
       }
