@@ -14,7 +14,6 @@ export const adminAuth = async (req,res,next) => {
             token,
             process.env.JWT_SECRET
         )
-        console.log(decodedData)
         const admin = await Admin.findById(decodedData.id)
         if(!admin){
             return res.status(403).json({
