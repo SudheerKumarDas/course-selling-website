@@ -107,15 +107,16 @@ export const userBuyCourse = async (req,res) => {
             })
         }
         const user = await User.findByIdAndUpdate(userId,
-            { $push:{enrolledCourses:course._id} }
+            { $addToSet:{enrolledCourses:course._id} },
+            {new:true}
         )
         res.status(200).json({
-            message:"course bought successfully",
+            message:"course purchased successfully",
             courseBought : course
         })
         
     } catch (error) {
-        console.error("Error in buying courses ",error);
+        console.error("Error in purchasing courses ",error);
         res.status(500).json({
             message:"Internal server error"
         })
@@ -134,7 +135,7 @@ export const purchasedCourses = async (req,res) => {
         }
         res.status(200).json({
             message:"fetched user enrolled courses",
-            EnrolledCourses : userProfile.enrolledCourses
+            courses : userProfile.enrolledCourses || [],
         })
     } catch (error) {
         console.error("Error in fetching enrolled courses ",error);
