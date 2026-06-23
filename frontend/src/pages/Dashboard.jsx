@@ -7,7 +7,7 @@ function Dashboard() {
             try {
                 const token = localStorage.getItem("token");
                 const response = await fetch(
-                "http://localhost:3000/user/courses",
+                "http://localhost:3000/users/courses",
                 {
                     method:"GET",
                     headers:{
