@@ -29,7 +29,23 @@ function PurchasedCourses() {
         fetchPurchasedCourses();
     },[]);
   return (
-    <div>PurchasedCourses</div>
+    <div>
+        <h1>My Purchased Courses</h1>
+        {
+            courses.length===0? (
+                <p>No courses purchased yet</p>
+            ) : (
+                courses.map((course)=>(
+                    <div key={course._id} className="border p-4 m-2">
+                        <h2>{course.title}</h2>
+                        <p>{course.description}</p>
+                        <p>{course.price}</p>
+                        <a href="#">{course.imageLink}</a>
+                    </div>
+                ))
+            )
+        }
+    </div>
   )
 }
 

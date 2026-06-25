@@ -59,9 +59,11 @@ function Dashboard() {
                 console.error(error)
             }
     }
+
   return (
     <div>
         <h1>Dashboard</h1>
+        <button onClick={()=>navigate("/purchased")} className="px-5 py-2.5 bg-blue-500 cursor-pointer hover:bg-blue-600">Purchased Courses</button>
         {courses.map((course)=>(
             <div key={course._id}>
                 <h2 className="text-3xl font-bold text-blue-600">{course.title}</h2>
