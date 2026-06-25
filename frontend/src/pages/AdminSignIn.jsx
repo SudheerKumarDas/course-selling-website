@@ -26,6 +26,7 @@ function AdminSignIn() {
             const data = await response.json();
             if(response.ok){
                 alert("Admin logged in successfully")
+                localStorage.setItem("token",data.token)
                 navigate("/admin-dashboard");
             }else{
                 alert(data.message);
@@ -43,12 +44,12 @@ function AdminSignIn() {
 
             <br />
 
-            <label htmlFor="password">Email : </label>
+            <label htmlFor="password">Password : </label>
             <input type="password" name="password" value={password} placeholder="Enter your password" onChange={(e)=>setPassword(e.target.value)} className="border p-2.5 m-2"/>
 
             <br />
 
-            <button type="submit" className="border p-2.5 m-2">Admin Sign In</button>
+            <button type="submit" className="border p-2.5 m-2 cursor-pointer">Admin Sign In</button>
         </form>
     </div>
   )
